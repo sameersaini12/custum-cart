@@ -1,0 +1,18 @@
+<% if(orders.length) { %>
+    <% orders.forEach((order) => { %>
+        <tr>
+            <td>
+                <a class="link" href="/customers/orders/<%= order._id %>"><%= order._id %></a>
+            </td>
+            <td>
+                <%= order.address %>
+            </td>
+            <td>
+                <%= moment(order.createdAt).format('hh:mm A') %>
+            </td>
+            <br>
+        </tr>
+    <% }) %>
+
+
+<% } %>

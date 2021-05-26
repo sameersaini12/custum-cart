@@ -338,3 +338,252 @@
     border-radius: 50px !important;
     padding-left:8px !important;
 }
+
+
+
+.button01 {
+    height:40px;
+    width:200px;
+    background-color:orange;
+    color:white;
+    border:none;
+    outline-width: none;
+    border-radius: 4px;
+}
+
+.add-to-cart {
+    background-color: green;
+    color:white;
+}
+
+
+//cart
+.checkout {
+    display: flex;
+    padding: 20px;
+    background-color: white;
+    height: max-content;
+  }
+  
+  .checkout_ad {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .checkout_title {
+    margin-right: 10px;
+    padding: 10px;
+    border-bottom: 1px solid lightgray;
+  }
+
+  .subtotal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width:300px;
+    height:100px;
+    padding: 20px;
+    background-color: #f3f3f3;
+    border:1px solid #dddddd;
+    border-radius: 3px;
+}
+
+.subtotal_gift {
+    display: flex;
+    align-items: center;
+
+}
+
+.subtotal_gift > input {
+    margin-right: 5px;
+}
+
+.subtotal > button {
+        background-color: #f0c14b;
+        border-radius: 2px;
+        width: 100%;
+        height: 30px;
+        border:1px solid;
+        margin-top:10px;
+        border-color: #a88734 #9c7e31 #846a29;
+        color:#111;
+}
+
+.checkoutProduct {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.checkoutProduct_image {
+    object-fit: contain;
+    width:180px;
+    height:180px;
+}
+
+.checkoutProduct_info {
+    padding-left: 20px;
+}
+
+.checkoutProduct_rating {
+    display: flex;
+}
+
+.checkoutProduct_title {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.checkoutProduct_info > button {
+    background-color: #f0c14b;
+    border:1px solid;
+    margin-top:10px;
+    border-color: #a88734 #9c7e31 #846a29;
+    color:#111;
+}
+
+.checkoutProduct_price > button {
+    margin-left: 30px;
+}
+
+.payment {
+    background-color: white;
+    padding-left: 160px;
+}
+
+.payment_container > h1 {
+    text-align: center;
+    padding:10px;
+    font-weight: 400;
+    background-color: rgb(234,237,237);
+    border-bottom: 1px solid lightgray;
+}
+
+.payment_container >h1 a {
+    text-decoration: none;
+}
+
+.payment_section {
+    display: flex;
+    padding:20px;
+    margin:0 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+.payment_title {
+    flex:0.2;
+}
+
+//status
+
+.status-container {
+    background-color:white;
+    height:100vh;
+    padding: 20px 20vw 0 20vw;
+}
+
+.status-box-upper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-box-upper > h1 {
+    font-weight: 400;
+}
+
+.status-box > ul {
+    line-height: 80px;
+}
+
+.status-box > ul>  li >  span {
+    position: relative;
+    padding-left: 40px;
+}
+
+.status-box > ul>  li >  span:after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top:50%;
+    background:#66d1c8;
+    width: 15px;
+    height: 15px;
+    transform: translateY(-42%);
+}
+
+.status-box ul li span:before{
+    content:'';
+    font-family: "Line Awesome Free";
+    font-size: 46px;
+    font-weight: 600;
+    position: absolute;
+    left: -90px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: inherit;
+}
+
+.status-box ul li small {
+    float: right;
+    font-size: 14px;
+    margin-top:8px;
+}
+
+.status-box ul li {
+    position: relative;
+}
+// Line
+.status-box ul li:before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: -4px;
+   width: 2px;
+   height: 100%;
+   background: #66d1c8;
+   margin-top: 10px;
+}
+
+.status-box ul li:nth-child(5) span:after {
+    box-shadow:0 22px 1px 20px white;
+}
+
+.status-box ul li:nth-child(1) span:after {
+    box-shadow:0 -22px 1px 20px white;
+}
+
+.status-box ul li.step-completed:before {
+    background: gray;
+}
+
+// dots
+.status-box ul li.step-completed span:after {
+    background: gray;
+}
+
+// text
+.status-box ul li.step-completed span {
+    color: gray;
+}
+
+// Current status
+.status-box ul li.current span {
+    color: orange;
+}
+
+.status-box ul li.current span:after {
+    background: orange;
+}
+
+.StripeElement {
+    box-sizing: border-box;
+    width: 400px;
+    margin:0 auto;
+    height: 40px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+}

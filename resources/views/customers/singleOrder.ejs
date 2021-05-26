@@ -1,0 +1,18 @@
+<section class="status" >
+    <div class="status-container">
+        <div class="status-box">
+            <div class="status-box-upper">
+                <h1>Shipment Tracking</h1>
+                <h6><%= order._id %></h6>
+                <input id="hiddenInput" type="hidden" value=" <%= JSON.stringify(order) %>">
+            </div>
+            <ul type="none">
+                <li class="status_line " data-status="order-placed"><span>Order Placed</span></li>
+                <li class="status_line " data-status="order-accepted"><span>Order Accepted</span></li>
+                <li class="status_line " data-status="out-of-delivery" ><span>Out Of Delivery</span></li>
+                <li class="status_line" data-status="comming-soon"><span>Comming Soon</span></li>
+                <li class="status_line" data-status="delivered"><span>Delivered</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
