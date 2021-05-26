@@ -7,7 +7,6 @@ const orderSchema = mongoose.Schema({
         required: true
     },
     items : {type : Object , required : true},
-    addgift : {type: Boolean , default: false},
     payment: {type:String , default: "Cash-on-delivery" },
     paymentStatus : {type: Boolean , default: false},
     status : {type : String , default : "order-placed"}

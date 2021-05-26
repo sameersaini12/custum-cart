@@ -17,28 +17,35 @@
             <div class="one-right-one-inclusive">Inclusive of all taxes</div>
             
             <div class="payment_address">
+
                 <% if(addresses.length) { %>
                     <b><p><%= user.name %></p></b>
                     <p><%= addresses[0].address %></p>
                     <p><%= addresses[0].pincode %></p>
                     <p>India</p>
                     <p><%= addresses[0].phone %></p>
-                    <form id="change-address" action="/changeaddress" method="POST">
-                        <a onclick="document.getElementById('change-address').submit() " style="text-decoration: none; color: black;" href="#"><button> Change Address</button></a>
+                    <form id="change-address" action="/changeaddress/<%= product._id %>" method="POST">
+                        <a onclick="document.getElementById('change-address').submit() " style="text-decoration: none; color: black; " href="#"><button  style="height:40px; width:200px; background-color:orange; color:white; border:none; outline-width: none; border-radius: 4px; margin-bottom: 15px;"> Change Address</button></a>
                         </form>
                     <% } else { %>
                         <div class="one-right-one-enter">Enter correct Details for hassle free timely delivery.</div>
-                <form action="/address" method="POST">
+                        <% if(user) { %>
+                <form action="/address/<%= product._id %>" method="POST">
                 <input type="text" name="phone" placeholder="Phone No."><br>
                 <input type="text" name="pincode" placeholder="Pin Code"><br>
                 <input type="text" name="address" placeholder="Full Address"><br>
-                <button type="submit">Add Address</button>
+                    <button type="submit" style="height:40px; width:200px; background-color:orange; color:white; border:none; outline-width: none; border-radius: 4px; margin-bottom: 15px;">Add Address</button>
+                <%} else { %>
+                    <a style="text-decoration: none; color: black; " href="/login"><button  style="height:40px; width:200px; background-color:orange; color:white; border:none; outline-width: none; border-radius: 4px; margin-bottom: 15px;"> Login to Add Address</button></a>
+                    <% } %>
+                
             </form>
             <% } %>
             </div>
             <div class="one-right-buttons">
-                <button data-product="<%= JSON.stringify(product) %>" class="add-to-cart">ADD TO BASKET</button>
-                <button>BUY NOW</button>
+                <button data-product="<%= JSON.stringify(product) %>" class="add-to-cart button01">ADD TO BASKET</button>
+               
+                    <button class="button01">BUY NOW</button>
             </div>
         </div>
     </div>

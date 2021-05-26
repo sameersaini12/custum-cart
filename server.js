@@ -9,6 +9,7 @@ const flash = require("express-flash")
 const session = require("express-session");
 const MongoDbStore = require("connect-mongo")
 const passport = require("passport")
+const Emitter = require("events");
 
 
 
@@ -23,13 +24,14 @@ mongoose.connect("mongodb://localhost/custom-cart" , {
     console.log("Connection failed");
 })
 
-
+//event emitter
+const eventEmitter = new Emitter();
+app.set('eventEmitter' , eventEmitter);
 
 
 app.use(session({
     secret: "mynameissameer",
     resave :false,
-    //by defalt memory sessions kaha store kare
     store : MongoDbStore.create({
         mongoUrl : "mongodb://localhost/custom-cart"
     }),
@@ -62,6 +64,22 @@ app.use((req,res,next)=> {
 require("./routes/web")(app);
 
 
-app.listen(PORT , ()=> {
+const server = app.listen(PORT , ()=> {
     console.log(`Listening on port ${PORT}`)
+})
+
+const io = require('socket.io')(server);
+
+io.on('connection' , (socket) => {
+    socket.on('join' , (roomName)=> {
+        socket.join(roomName);
+    })
+})
+
+eventEmitter.on('orderUpdated', (data)=> {
+    io.to(`order_${data.id}`).emit('orderUpdated' ,data);
+})
+
+eventEmitter.on('orderPlaced' , (data)=> {
+    io.to('adminRoom').emit('orderPlaced' , data)
 })

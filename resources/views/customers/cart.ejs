@@ -9,4 +9,80 @@
         </div>
             <img style="margin-bottom: 50px;" src="/img/empty-cart.png" alt="empty-cart" >
     </div> -->
+    <div class="payment">
+        <div class="payment_container">
+            <img style="margin: 35px;" src="/img/delivery-banner.gif" alt="" >
+            <div class="payment_section">
+                <div class="payment_title">
+                    <h3>Delivery address</h3>
+                </div>
+                <div class="payment_address">
+
+                    <% if(addresses.length) { %>
+                        <b><p><%= user.name %></p></b>
+                        <p><%= addresses[0].address %></p>
+                        <p><%= addresses[0].pincode %></p>
+                        <p>India</p>
+                        <p><%= addresses[0].phone %></p>
+                        <form id="change-address" action="/changeaddress" method="POST">
+                            <a onclick="document.getElementById('change-address').submit() " style="text-decoration: none; color: black; " href="#"><button  style="height:40px; width:200px; background-color:orange; color:white; border:none; outline-width: none; border-radius: 4px; margin-bottom: 15px;"> Change Address</button></a>
+                            </form>
+                        <% } else { %>
+                            <div class="one-right-one-enter">Enter correct Details for hassle free timely delivery.</div>
+                            <% if(user) { %>
+                    <form action="/address" method="POST">
+                    <input type="text" name="phone" placeholder="Phone No."><br>
+                    <input type="text" name="pincode" placeholder="Pin Code"><br>
+                    <input type="text" name="address" placeholder="Full Address"><br>
+                        <button type="submit" style="height:40px; width:200px; background-color:orange; color:white; border:none; outline-width: none; border-radius: 4px; margin-bottom: 15px;">Add Address</button>
+                    <%} else { %>
+                        <a style="text-decoration: none; color: black; " href="/login"><button  style="height:40px; width:200px; background-color:orange; color:white; border:none; outline-width: none; border-radius: 4px; margin-bottom: 15px;"> Login to Add Address</button></a>
+                        <% } %>
+                    
+                </form>
+                <% } %>
+                </div>
+            </div>
+            <div class="payment_section">
+                <div class="payment_title">
+                    <h3>Review Items and delivery</h3>
+                </div>
+                <div class="payment_items">
+                    <% for(let product of Object.values(session.cart.items)) { %>
+                        <div class="checkoutProduct">
+                          <img class="checkoutProduct_image" src="<%= product.item.image %>" alt="" />
+                          <div class="checkoutProduct_info">
+                            <p class="checkoutProduct_title"><%= product.item.title %></p>
+                            <p class="checkoutProduct_price">
+                              <small>₹</small>
+                              <strong><%= product.item.price %></strong>
+                              <button style="background-color:orange; color: white; border:none; border-radius: 4px; height:25px;">Qty: <%= product.qty %></button>
+                            </p>
+                          </div>
+                        </div>
+                        <% } %>
+                </div>
+            </div>
+            <form action="/placeanorder" method="POST" id="payment-form">
+            <div class="payment_section">
+                <div class="payment_title">
+                    <h3>Payment Method</h3>
+                </div>
+                <div class="">
+                    <select id="payment-type" name="paymentType">
+                        <option selected  value="Cash-on-delivery">Cash on delivery</option>
+                        <option value="card">Pay with card</option>
+                    </select>
+                    <div id="card-element">
+    
+                    </div>
+                </div>
+                <div class="place-order">
+                    <button type="submit">Place an Order</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    
 </div>

@@ -6,7 +6,10 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const guest = require("../app/middleware/guest");
 const admin = require("../app/middleware/admin");
-const auth = require("../app/middleware/auth")
+const auth = require("../app/middleware/auth");
+const Order = require("../app/models/order");
+const moment = require("moment");
+const Emitter = require("events");
 
 function initRoutes(app) {
 
@@ -32,7 +35,12 @@ function initRoutes(app) {
     })
 
     app.get("/cart", (req,res)=> {
-        res.render("customers/cart");
+        Product.find( { _id : req.params.id }).then(async(product)=> {
+            let address='';
+            if(req.user) 
+            address = await Address.find({customerId: req.user._id}) 
+            res.render("customers/cart" , {product : product[0] , addresses : address})
+        })
     })
     
     app.get("/login" ,guest , (req,res)=> {
@@ -50,8 +58,26 @@ function initRoutes(app) {
     app.get("/product/:id" , async(req , res) => {
         Product.find( { _id : req.params.id }).then(async(product)=> {
             let address='';
+            if(req.user) 
             address = await Address.find({customerId: req.user._id}) 
             res.render("oneProduct" , {product : product[0] , addresses : address})
+        })
+    })
+
+    app.post("/address/:id" , (req,res) => {
+        const {phone , pincode , address} = req.body;
+        const addressA = new Address({
+            customerId : req.user._id,
+            phone: phone,
+            pincode : pincode,
+            address : address,
+        })
+        addressA.save().then(()=> {
+            req.flash("success" , "Address saved");
+            res.redirect("/product/"+req.params.id);
+        }).catch((e)=> {
+            req.flash("error" , "Something went wrong");
+            res.redirect("/");
         })
     })
 
@@ -65,16 +91,21 @@ function initRoutes(app) {
         })
         addressA.save().then(()=> {
             req.flash("success" , "Address saved");
-            res.redirect("/checkout");
+            res.redirect("/cart");
         }).catch((e)=> {
             req.flash("error" , "Something went wrong");
             res.redirect("/");
         })
     })
 
+    app.post("/changeaddress/:id" , async(req,res)=> {
+        await Address.deleteOne({customerId: req.user._id})
+        res.redirect("/product/"+req.params.id);
+    })
+
     app.post("/changeaddress" , async(req,res)=> {
         await Address.deleteOne({customerId: req.user._id})
-        res.redirect("/product/:id");
+        res.redirect("/cart");
     })
     
     const generateRedirectUrl = (req)=> {
@@ -172,7 +203,62 @@ function initRoutes(app) {
         res.json({totalQty : req.session.cart.totalQty})
     })
 
+    app.post("/placeanorder" , (req,res)=> {
+        const paymentType = req.body.payment;
+        const orders = new Order ({
+            customerId : req.user._id,
+            items : req.session.cart.items
+        })
+        orders.save().then((result)=> {
+            Order.populate(result , {path : 'customerId'} , (err , placedOrder)=> {
+                req.flash("success" , "Order placed successfully")
+                delete req.session.cart
 
+                const eventEmitter = req.app.get("eventEmitter")
+                eventEmitter.emit('orderPlaced', placedOrder)
+                    return res.redirect("/customers/orders");
+                // return res.status(200).redirect("/")
+            }) 
+        }).catch((e)=> {
+            console.log(e)
+            req.flash('error' , 'something went wrong')
+            return res.redirect("/cart");
+        })
+    })
+
+    app.get("/customers/orders" ,auth , async (req,res)=> {
+        const orders = await Order.find({customerId : req.user._id} , null , {sort : {'createdAt' : -1}});
+        res.render("customers/orders" , {orders:orders , moment: moment});
+    })
+
+    app.get("/customers/orders/:id" ,auth, async(req,res)=> {
+        const order = await Order.findById(req.params.id);
+        if(req.user._id.toString() === order.customerId.toString()) {
+            res.render("customers/singleOrder" , {order : order});
+        }else {
+            res.redirect("/");
+        }
+    })
+
+    //admin 
+    app.get("/admin/orders" ,admin, (req,res)=> {
+        Order.find({status : { $ne : 'completed'}} , null , {sort : {'createdAt' : -1}} )
+        .populate('customerId' , '-password').exec((err , orders)=> {
+            //check if there is any ajax call or not
+            if(req.xhr) {
+                return res.json(orders)
+            }
+            return res.render("admin/orders");
+        })
+    })
+
+    app.post("/admin/order/status" , admin , (req,res)=> {
+        Order.updateOne({_id : req.body.orderId} , {status : req.body.status} , (err , data)=> {
+            const eventEmitter = req.app.get('eventEmitter');
+            eventEmitter.emit('orderUpdated' , {id : req.body.orderId , status : req.body.status})
+            res.redirect("/admin/orders");
+        })
+    })
 }
 
 module.exports = initRoutes
