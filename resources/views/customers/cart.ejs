@@ -1,5 +1,7 @@
 <div class="cart">
-    <!-- <div class="empty_cart">
+    <% if(!session.cart) { console.log(session.cart)%>
+        
+    <div class="empty_cart">
         <div class="empty_details">
             <h1>Cart Empty</h1>
             <p>You probably haven't add product to cart yet.
@@ -8,7 +10,8 @@
             <a href="/" ><button style="background-color: orange; border:none; height: 50px; width: 100px; color: white; border-radius: 4px; cursor: pointer;">Go back</button></a>
         </div>
             <img style="margin-bottom: 50px;" src="/img/empty-cart.png" alt="empty-cart" >
-    </div> -->
+    </div>
+    <% } else { %>
     <div class="payment">
         <div class="payment_container">
             <img style="margin: 35px;" src="/img/delivery-banner.gif" alt="" >
@@ -84,5 +87,5 @@
             </form>
         </div>
     </div>
-    
+    <% } %>
 </div>

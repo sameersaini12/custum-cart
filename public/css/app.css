@@ -276,7 +276,7 @@
 }
 
 .header {
-  background-color: #131921;
+  background-color: #f39b29;
   display: flex;
   align-items: center;
   position: sticky;
@@ -348,6 +348,15 @@
   margin-left: 10px;
   margin-right: 10px;
   margin-top: 5px;
+}
+
+.new-scheme {
+  margin-top: -700px;
+  margin-bottom: 300px;
+}
+
+.new-scheme > img {
+  width: 100%;
 }
 
 .home {
@@ -486,7 +495,7 @@
 }
 
 .login_signinButton {
-  background-color: #f0c14b;
+  background-color: #fa8745;
   border: 1px solid;
   border-radius: 2px;
   width: 100%;
@@ -613,11 +622,27 @@
   border: none;
   outline-width: none;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .add-to-cart {
   background-color: green;
   color: white;
+}
+
+.description-product {
+  margin-top: 20px;
+}
+
+.product-details-product {
+  font-weight: 350;
+}
+
+hr {
+  background-color: gray;
+  border-bottom: none;
+  border-right: none;
+  border-left: none;
 }
 
 .checkout {
