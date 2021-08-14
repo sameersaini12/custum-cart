@@ -42,9 +42,17 @@
             </form>
             <% } %>
             </div>
+            <div class="modify">
+                <form action="/modifyproduct/<%= product._id %>" enctype="multipart/form-data" method="POST">
+                <input style="height:22px; padding:7px; margin-bottom:10px;" type="text" name="printText" placeholder="What do you want to write!!"><br>
+                <!-- <span style="margin-right:4px; font-weight:350;">Choose photo that you want </span><input style="margin-bottom: 10px;" type="file" name="uploadImage" accept="image/*"><br> -->
+                <button type="submit" style="height:40px; width:200px; background-color:orange; color:white; border:none; outline-width: none; border-radius: 4px; margin-bottom: 15px;">SUBMIT DETAILS</button>
+                </form>
+            </div>
             <div class="one-right-buttons">
                 <button data-product="<%= JSON.stringify(product) %>" class="add-to-cart button01">ADD TO BASKET</button>
-                <a href="/cart"><button class="button01"> BUY NOW</button></a>
+                <button data-product="<%= JSON.stringify(product) %>" class="add-to-cart button01">BUY NOW</button>
+                <!-- <a href="/cart"><button class="button01"> BUY NOW</button></a> -->
             </div>
             <div class="description-product">Description</div> <hr>
             <div class="product-details-product">

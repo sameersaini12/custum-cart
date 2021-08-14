@@ -12,7 +12,6 @@ const passport = require("passport")
 const Emitter = require("events");
 
 
-
 mongoose.connect("mongodb://localhost/custom-cart" , {
     useNewUrlParser:true,
     useCreateIndex:true,

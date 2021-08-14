@@ -10,6 +10,8 @@ const auth = require("../app/middleware/auth");
 const Order = require("../app/models/order");
 const moment = require("moment");
 const Emitter = require("events");
+const multer = require("multer")
+const path = require("path")
 
 function initRoutes(app) {
 
@@ -107,6 +109,36 @@ function initRoutes(app) {
         await Address.deleteOne({customerId: req.user._id})
         res.redirect("/cart");
     })
+
+var storage = multer.diskStorage({
+    destination: (req,file, cb)=> {
+        cb(null , 'uploads')
+    },
+    filename: (req,file , cb) => {
+        cb(null , file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+})
+
+var upload = multer({
+    storage: storage
+})
+
+app.post("/modifyproduct/:id" ,upload.single('uploadImage') ,(req,res,next)=> {
+    Product.find( { _id : req.params.id }).then(async(product)=> {
+        let file = req.uploadImage;
+        if(!file) {
+             
+        }
+
+        product[0].printtext = req.body.printText
+        product[0].printimage = file
+        product[0].save().then((result)=> {
+            res.redirect("/product/"+req.params.id);
+        }).catch((err)=> {
+            console.log(err);
+        })
+    })
+})
     
     const generateRedirectUrl = (req)=> {
         return req.user.role === 'admin' ? '/admin/orders' : '/'
